@@ -47,11 +47,23 @@ public class Fachada {
 	}
 
 
-	public static void 	adicionarParticipanteReuniao(String nome, int id) {
+	public static void 	adicionarParticipanteReuniao(String nome, int id) throws Exception {
 		nome = nome.trim();
 		//localizar participante e reuniao no repositorio e adicioná-lo à reunião
 		//enviarEmail(emaildestino, assunto, mensagem)
+		Participante p = repositorio.localizarParticipante(nome);
+		if(p==null)
+			throw new Exception("nao pode adicionar - participante inexistente");
+
+		Reuniao r = repositorio.localizarReuniao(id);
+		if(r==null)
+			throw new Exception("nao pode adicionar - reuniao inexistente");
+
+		r.adicionar(p);
+		p.adicionar(r);
+		//...
 	}
+	
 	public static void 	removerParticipanteReuniao(String nome, int id) {
 		nome = nome.trim();
 		//localizar participante e reuniao no repositorio e removê-lo da reunião
@@ -64,13 +76,89 @@ public class Fachada {
 
 	}
 
-	public static void	inicializar() {
+	public static void inicializar() throws Exception {
 		//ler dos arquivos textos (formato anexo) os dados dos participantes e 
 		//das reuniões e adicioná-los ao repositório
+
+		Scanner arquivo1=null;
+		Scanner arquivo2=null;
+		try{
+			arquivo1 = new Scanner( new File("participantes.txt"));
+		}catch(FileNotFoundException e){
+			throw new Exception("arquivo de participantes inexistente:");
+		}
+		try{
+			arquivo2 = new Scanner( new File("reunioes.txt"));
+		}catch(FileNotFoundException e){
+			throw new Exception("arquivo de reunioes inexistente:");
+		}
+
+		String linha;	
+		String[] partes;	
+		String nome, email;
+		while(arquivo1.hasNextLine()) {
+			linha = arquivo1.nextLine().trim();		
+			partes = linha.split(";");	
+			nome = partes[0];
+			email = partes[1];
+			Participante p = new Participante(nome,email);
+			repositorio.adicionar(p);
+		} 
+		arquivo1.close();			
+
+		String id, datahora, assunto;
+		String[] nomes;
+		while(arquivo2.hasNextLine()) {
+			linha = arquivo2.nextLine().trim();		
+			partes = linha.split(";");	
+			id = partes[0];
+			datahora = partes[1];
+			assunto = partes[2];
+			nomes = partes[3].split(",");		
+			Reuniao r = new Reuniao(Integer.parseInt(id), datahora, assunto);
+			for(String n : nomes){
+				Participante p = repositorio.localizarParticipante(n);
+				r.adicionar(p);
+			}
+			repositorio.adicionar(r);		
+		} 
+		arquivo2.close();	
 	}
-	public static void	finalizar() {
-		//gravar nos arquivos textos (formato anexo) os dados dos participantes e 
+
+	public static void	finalizar() throws Exception{
+		//gravar nos arquivos textos  os dados dos participantes e 
 		//das reuniões que estão no repositório
+		
+		FileWriter arquivo1=null;
+		FileWriter arquivo2=null;
+		try{
+			arquivo1 = new FileWriter( new File("participantes.csv") ); 
+		}catch(IOException e){
+			throw new Exception("problema na criação do arquivo de participantes");
+		}
+		try{
+			arquivo1 = new FileWriter( new File("participantes.csv") ); 
+		}catch(IOException e){
+			throw new Exception("problema na criação do arquivo de reunioes");
+		}
+
+		for(Participante p : repositorio.getParticipantes()) {
+			arquivo1.write(p.getNome() +";" + p.getEmail() +"\n");	
+		} 
+		arquivo1.close();			
+
+		ArrayList<String> lista;
+		String nomes;
+		for(Reuniao r : repositorio.getReunioes()) {
+			lista = new ArrayList<>();
+			for(Participante p : r.getParticipantes()) {
+				lista.add(p.getNome());
+			}
+			nomes = String.join(",", lista);
+			arquivo2.write(r.getId()+";"+r.getDatahora()+";"+r.getAssunto()+";"+nomes+"\n");	
+		} 
+		arquivo2.close();	
+
 	}
 	
 	
