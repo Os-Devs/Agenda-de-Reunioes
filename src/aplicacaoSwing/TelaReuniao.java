@@ -1,7 +1,7 @@
 /**********************************
  * IFPB - Curso Superior de Tec. em Sist. para Internet
  * Pesist~encia de Objetos
- * Prof. Fausto Maranhão Ayres
+ * Prof. Fausto Maranhï¿½o Ayres
  **********************************/
 package aplicacaoSwing;
 
@@ -133,7 +133,7 @@ public class TelaReuniao {
 					String assunto = textField_2.getText();
 					String nomes[] = textField_3.getText().trim().split(",");
 					Fachada.criarReuniao(data+" "+hora, assunto,  new ArrayList<>(Arrays.asList(nomes)));
-					label.setText("reunião criada");
+					label.setText("reuniï¿½o criada");
 					listagem();
 				}
 				catch(Exception ex) {
@@ -176,11 +176,11 @@ public class TelaReuniao {
 						String id = (String) table.getValueAt( table.getSelectedRow(), 0);
 
 						Object[] options = { "Confirmar", "Cancelar" };
-						int escolha = JOptionPane.showOptionDialog(null, "Confirma exclusão da reunião "+id, "Alerta",
+						int escolha = JOptionPane.showOptionDialog(null, "Confirma exclusï¿½o da reuniï¿½o "+id, "Alerta",
 								JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[1]);
 						if(escolha == 0) {
 							Fachada.cancelarReuniao(Integer.parseInt(id));
-							label.setText("reunião cancelada "+id);
+							label.setText("reuniï¿½o cancelada "+id);
 							listagem();
 						}
 					}
@@ -317,7 +317,7 @@ public class TelaReuniao {
 				List<String> nomes = new ArrayList<>();
 				for(Participante p : r.getParticipantes())	{
 					datastr = r.getDatahora().format(DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss"));
-					model.addRow(new String[]{r.getId(), datastr, r.getAssunto(), p.getNome()});
+					model.addRow(new String[]{(String.valueOf(r.getId())), datastr, r.getAssunto(), p.getNome()});
 				}
 			}
 			table.setModel(model);
