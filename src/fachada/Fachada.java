@@ -1,12 +1,17 @@
 package fachada;
 /**********************************
  * IFPB - Curso Superior de Tec. em Sist. para Internet
- * Programação Orientada a Objetos
- * Prof. Fausto Maranhão Ayres
+ * Programaï¿½ï¿½o Orientada a Objetos
+ * Prof. Fausto Maranhï¿½o Ayres
  **********************************/
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.Scanner;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -49,7 +54,7 @@ public class Fachada {
 
 	public static void 	adicionarParticipanteReuniao(String nome, int id) throws Exception {
 		nome = nome.trim();
-		//localizar participante e reuniao no repositorio e adicioná-lo à reunião
+		//localizar participante e reuniao no repositorio e adicionï¿½-lo ï¿½ reuniï¿½o
 		//enviarEmail(emaildestino, assunto, mensagem)
 		Participante p = repositorio.localizarParticipante(nome);
 		if(p==null)
@@ -66,19 +71,19 @@ public class Fachada {
 	
 	public static void 	removerParticipanteReuniao(String nome, int id) {
 		nome = nome.trim();
-		//localizar participante e reuniao no repositorio e removê-lo da reunião
+		//localizar participante e reuniao no repositorio e removï¿½-lo da reuniï¿½o
 		//enviarEmail(emaildestino, assunto, mensagem)
 	}
 	public static void	cancelarReuniao(int id) {
-		//localizar a reunião no repositório, removê-la de seus participantes e
-		//removê-la do repositorio
+		//localizar a reuniï¿½o no repositï¿½rio, removï¿½-la de seus participantes e
+		//removï¿½-la do repositorio
 		//enviarEmail(emaildestino, assunto, mensagem)
 
 	}
 
 	public static void inicializar() throws Exception {
 		//ler dos arquivos textos (formato anexo) os dados dos participantes e 
-		//das reuniões e adicioná-los ao repositório
+		//das reuniï¿½es e adicionï¿½-los ao repositï¿½rio
 
 		Scanner arquivo1=null;
 		Scanner arquivo2=null;
@@ -127,19 +132,19 @@ public class Fachada {
 
 	public static void	finalizar() throws Exception{
 		//gravar nos arquivos textos  os dados dos participantes e 
-		//das reuniões que estão no repositório
+		//das reuniï¿½es que estï¿½o no repositï¿½rio
 		
 		FileWriter arquivo1=null;
 		FileWriter arquivo2=null;
 		try{
 			arquivo1 = new FileWriter( new File("participantes.csv") ); 
 		}catch(IOException e){
-			throw new Exception("problema na criação do arquivo de participantes");
+			throw new Exception("problema na criaï¿½ï¿½o do arquivo de participantes");
 		}
 		try{
 			arquivo1 = new FileWriter( new File("participantes.csv") ); 
 		}catch(IOException e){
-			throw new Exception("problema na criação do arquivo de reunioes");
+			throw new Exception("problema na criaï¿½ï¿½o do arquivo de reunioes");
 		}
 
 		for(Participante p : repositorio.getParticipantes()) {
@@ -165,7 +170,7 @@ public class Fachada {
 	
 	/**************************************************************
 	 * 
-	 * MÉTODO PARA ENVIAR EMAIL, USANDO UMA CONTA (SMTP) DO GMAIL
+	 * Mï¿½TODO PARA ENVIAR EMAIL, USANDO UMA CONTA (SMTP) DO GMAIL
 	 * ELE ABRE UMA JANELA PARA PEDIR A SENHA DO EMAIL DO EMITENTE
 	 * ELE USA A BIBLIOTECA JAVAMAIL 1.6.2
 	 * Lembrar de: 
