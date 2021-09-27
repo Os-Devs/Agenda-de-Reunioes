@@ -5,13 +5,8 @@ package fachada;
  * Prof. Fausto Maranh�o Ayres
  **********************************/
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Properties;
-import java.util.Scanner;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -73,11 +68,29 @@ public class Fachada {
 		nome = nome.trim();
 		//localizar participante e reuniao no repositorio e remov�-lo da reuni�o
 		//enviarEmail(emaildestino, assunto, mensagem)
+		Participante p = repositorio.localizarParticipante(nome);
+		if(p==null)
+			throw new Exception("nao pode remover - participante inexistente");
+
+		Reuniao r = repositorio.localizarReuniao(id);
+		if(r==null)
+			throw new Exception("nao pode remover - reuniao inexistente");
+
+		r.remover(p);
+		p.remover(r);
 	}
 	public static void	cancelarReuniao(int id) {
 		//localizar a reuni�o no reposit�rio, remov�-la de seus participantes e
 		//remov�-la do repositorio
 		//enviarEmail(emaildestino, assunto, mensagem)
+		Reuniao r = repositorio.localizarReuniao(id);
+		if (r==null)
+			throw new Exception(String.format("cancelar reunião - reunião inexistente %d", id));
+
+		for (Participante p : r.getParticipantes()) {
+			p.remover(r);
+		}
+		repositorio.remover(r);
 
 	}
 
