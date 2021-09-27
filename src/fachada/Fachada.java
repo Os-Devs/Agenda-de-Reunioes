@@ -6,8 +6,13 @@ package fachada;
  * Prof. Fausto Maranhão Ayres
  **********************************/
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.Scanner;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
