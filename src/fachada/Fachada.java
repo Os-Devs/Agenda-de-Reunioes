@@ -55,7 +55,7 @@ public class Fachada {
 
 	public static void 	adicionarParticipanteReuniao(String nome, int id) throws Exception {
 		nome = nome.trim();
-		//localizar participante e reuniao no repositorio e adicion�-lo � reuni�o
+		//localizar participante e reuniao no repositorio e adiciona-lo a reunião
 		//enviarEmail(emaildestino, assunto, mensagem)
 		Participante p = repositorio.localizarParticipante(nome);
 		if(p==null)
@@ -72,7 +72,7 @@ public class Fachada {
 	
 	public static void 	removerParticipanteReuniao(String nome, int id) {
 		nome = nome.trim();
-		//localizar participante e reuniao no repositorio e remov�-lo da reuni�o
+		//localizar participante e reuniao no repositorio e remove-lo da reunião
 		//enviarEmail(emaildestino, assunto, mensagem)
 		Participante p = repositorio.localizarParticipante(nome);
 		if(p==null)
@@ -86,8 +86,8 @@ public class Fachada {
 		p.remover(r);
 	}
 	public static void	cancelarReuniao(int id) {
-		//localizar a reuni�o no reposit�rio, remov�-la de seus participantes e
-		//remov�-la do repositorio
+		//localizar a reunião no repositorio, remove-la de seus participantes e
+		//remove-la do repositorio
 		//enviarEmail(emaildestino, assunto, mensagem)
 		Reuniao r = repositorio.localizarReuniao(id);
 		if (r==null)
@@ -102,7 +102,7 @@ public class Fachada {
 
 	public static void inicializar() throws Exception {
 		//ler dos arquivos textos (formato anexo) os dados dos participantes e 
-		//das reuni�es e adicion�-los ao reposit�rio
+		//das reuniões e adiciona-los ao repositório
 
 		Scanner arquivo1=null;
 		Scanner arquivo2=null;
@@ -151,19 +151,19 @@ public class Fachada {
 
 	public static void	finalizar() throws Exception{
 		//gravar nos arquivos textos  os dados dos participantes e 
-		//das reuni�es que est�o no reposit�rio
+		//das reuniões que estão no repositorio
 		
 		FileWriter arquivo1=null;
 		FileWriter arquivo2=null;
 		try{
 			arquivo1 = new FileWriter( new File("participantes.csv") ); 
 		}catch(IOException e){
-			throw new Exception("problema na cria��o do arquivo de participantes");
+			throw new Exception("problema na criação do arquivo de participantes");
 		}
 		try{
 			arquivo1 = new FileWriter( new File("participantes.csv") ); 
 		}catch(IOException e){
-			throw new Exception("problema na cria��o do arquivo de reunioes");
+			throw new Exception("problema na criação do arquivo de reunioes");
 		}
 
 		for(Participante p : repositorio.getParticipantes()) {
@@ -189,7 +189,7 @@ public class Fachada {
 	
 	/**************************************************************
 	 * 
-	 * M�TODO PARA ENVIAR EMAIL, USANDO UMA CONTA (SMTP) DO GMAIL
+	 * MÉTODO PARA ENVIAR EMAIL, USANDO UMA CONTA (SMTP) DO GMAIL
 	 * ELE ABRE UMA JANELA PARA PEDIR A SENHA DO EMAIL DO EMITENTE
 	 * ELE USA A BIBLIOTECA JAVAMAIL 1.6.2
 	 * Lembrar de: 

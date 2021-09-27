@@ -134,7 +134,7 @@ public class TelaReuniao {
 					String assunto = textField_2.getText();
 					String nomes[] = textField_3.getText().trim().split(",");
 					Fachada.criarReuniao(data+" "+hora, assunto,  new ArrayList<>(Arrays.asList(nomes)));
-					label.setText("reuni�o criada");
+					label.setText("reunião criada");
 					listagem();
 				}
 				catch(Exception ex) {
@@ -177,11 +177,11 @@ public class TelaReuniao {
 						String id = (String) table.getValueAt( table.getSelectedRow(), 0);
 
 						Object[] options = { "Confirmar", "Cancelar" };
-						int escolha = JOptionPane.showOptionDialog(null, "Confirma exclus�o da reuni�o "+id, "Alerta",
+						int escolha = JOptionPane.showOptionDialog(null, "Confirma exclusão da reunião "+id, "Alerta",
 								JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[1]);
 						if(escolha == 0) {
 							Fachada.cancelarReuniao(Integer.parseInt(id));
-							label.setText("reuni�o cancelada "+id);
+							label.setText("reunião cancelada "+id);
 							listagem();
 						}
 					}
