@@ -2,8 +2,8 @@ package repositorio;
 
 /**********************************
  * IFPB - Curso Superior de Tec. em Sist. para Internet
- * ProgramaÁ„o Orientada a Objetos
- * Prof. Fausto Maranh„o Ayres
+ * Programa√ß√£o Orientada a Objetos
+ * Prof. Fausto Maranh√£o Ayres
  **********************************/
 import java.util.ArrayList;
 import java.util.TreeMap;
