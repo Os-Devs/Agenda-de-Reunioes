@@ -1,9 +1,10 @@
+package aplicacaoSwing;
+
 /**********************************
  * IFPB - Curso Superior de Tec. em Sist. para Internet
- * Pesist~encia de Objetos
- * Prof. Fausto Maranh�o Ayres
+ * Programação Orientada a Objetos
+ * Prof. Fausto Maranhão Ayres
  **********************************/
-package aplicacaoSwing;
 
 import java.awt.Color;
 import java.awt.Font;

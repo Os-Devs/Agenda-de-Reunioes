@@ -1,4 +1,11 @@
 package aplicacaoConsole;
+
+/**********************************
+ * IFPB - Curso Superior de Tec. em Sist. para Internet
+ * ProgramaÃ§Ã£o Orientada a Objetos
+ * Prof. Fausto MaranhÃ£o Ayres
+ **********************************/
+
 import java.util.ArrayList;
 
 import fachada.Fachada;
@@ -56,10 +63,10 @@ public class AplicacaoConsole {
 
 
 	public static void testarExcecoes() {
-		System.out.println("\n-------TESTE EXCEÇÕES LANÇADAS--------");
+		System.out.println("\n-------TESTE EXCEÃ‡Ã•ES LANÃ‡ADAS--------");
 		try {
 			Participante p = Fachada.criarParticipante("carlos", "carlos@gmail.com");
-			System.out.println("*************1Nao lançou exceção para: criar participante "); 
+			System.out.println("*************1Nao lanÃ§ou exceÃ§Ã£o para: criar participante ");
 		}catch (Exception e) {System.out.println("1ok--->"+e.getMessage());}
 
 		try {
@@ -67,24 +74,24 @@ public class AplicacaoConsole {
 			nomes.add("joao");
 			nomes.add("carlos");
 			Reuniao r = Fachada.criarReuniao("20/10/2021 08:00", "teste", nomes);
-			System.out.println("*************2Nao lançou exceção para: criar reuniao"); 
+			System.out.println("*************2Nao lanÃ§ou exceÃ§Ã£o para: criar reuniao");
 		}catch (Exception e) {System.out.println("2ok--->"+e.getMessage());}
 
 		try {
 			ArrayList<String> nomes = new ArrayList<>();
 			nomes.add("carlos");
 			Reuniao r = Fachada.criarReuniao("20/10/2021 08:00", "teste", nomes);
-			System.out.println("*************3Nao lançou exceção: criar reuniao 1 participante"); 
+			System.out.println("*************3Nao lanÃ§ou exceÃ§Ã£o: criar reuniao 1 participante");
 		}catch (Exception e) {System.out.println("3ok--->"+e.getMessage());}
 
 		try {
 			Fachada.removerParticipanteReuniao("ze", 1);	
-			System.out.println("*************4Nao lançou exceção: remover participante inexistente"); 
+			System.out.println("*************4Nao lanÃ§ou exceÃ§Ã£o: remover participante inexistente");
 		}catch (Exception e) {System.out.println("4ok--->"+e.getMessage());}
 
 		try {
 			Fachada.cancelarReuniao(999);	
-			System.out.println("*************5Nao lançou exceção: cancelar reuniao inexistente"); 
+			System.out.println("*************5Nao lanÃ§ou exceÃ§Ã£o: cancelar reuniao inexistente");
 		}catch (Exception e) {System.out.println("5ok--->"+e.getMessage());}
 
 	}

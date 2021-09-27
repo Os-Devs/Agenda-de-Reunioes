@@ -1,13 +1,13 @@
 package modelo;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-
 /**********************************
  * IFPB - Curso Superior de Tec. em Sist. para Internet
- * Programa��o Orientada a Objetos
- * Prof. Fausto Maranh�o Ayres
+ * Programação Orientada a Objetos
+ * Prof. Fausto Maranhão Ayres
  **********************************/
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class Reuniao {
     private int id;
