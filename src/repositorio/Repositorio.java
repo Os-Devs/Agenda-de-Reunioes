@@ -5,6 +5,7 @@ package repositorio;
  * Programação Orientada a Objetos
  * Prof. Fausto Maranhão Ayres
  **********************************/
+
 import java.util.ArrayList;
 import java.util.TreeMap;
 
@@ -18,31 +19,31 @@ public class Repositorio {
 
 	
 	public void adicionar(Participante p){
+		participantes.put(p.getNome(), p);
 	}
 	public void remover(Participante p){
+		participantes.remove(p.getNome());
 	}
 	public Participante localizarParticipante(String nome){
+		return participantes.get(nome);
 	}
 
-	public void adicionar(Reuniao r){
-	}
-	public void remover(Reuniao r){
-	}
+	public void adicionar(Reuniao r){ reunioes.add(r);}
+	public void remover(Reuniao r){ reunioes.remove(r);}
 	public Reuniao localizarReuniao(int id){
+		for(Reuniao reuni : reunioes){
+			if(reuni.getId() == id){
+				return reuni;
+			}
+		}
+		return null;
 	}
 	
-	public ArrayList<Participante> getParticipantes() {
-	}
-	public ArrayList<Reuniao> getReunioes() {
-	}
+	public ArrayList<Participante> getParticipantes() { return new ArrayList<Participante>(participantes.values());}
+	public ArrayList<Reuniao> getReunioes() { return reunioes; }
+	public int getTotalParticipante(){ return participantes.size();}
+	public int getTotalReunioes(){ return reunioes.size();}
 
-	
-	public int getTotalParticipante(){
-	}
-	public int getTotalReunioes(){
-	}
-	
-	//...demais metodos
-	
+
 }
 

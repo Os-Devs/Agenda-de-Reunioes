@@ -27,4 +27,7 @@ public class Participante {
         return reunioes;
     }
 
+    public void adicionar(Reuniao r){ reunioes.add(r);}
+
+    public void remover(Reuniao r) { reunioes.remove(r);}
 }

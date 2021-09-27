@@ -30,4 +30,8 @@ public class Reuniao {
 
     public ArrayList<Participante> getParticipantes() {return participantes;}
 
+    public void adicionar(Participante p){ participantes.add(p);}
+
+    public void remover(Participante p) { participantes.remove(p); }
+
 }
