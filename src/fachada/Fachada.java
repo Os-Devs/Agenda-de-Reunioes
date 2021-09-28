@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Scanner;
@@ -35,21 +37,70 @@ import repositorio.Repositorio;
 public class Fachada {
 	private static Repositorio repositorio = new Repositorio();	//existe somente um repositorio
 
-	public static ArrayList<Participante> listarParticipantes() {
-		return repositorio.getParticipantes();
-	}
+	private static int idReuniao=0;
+
+	public static ArrayList<Participante> listarParticipantes() { return repositorio.getParticipantes(); }
 	public static ArrayList<Reuniao> listarReunioes() {
 		return repositorio.getReunioes();
 	}
 
-	public static Participante criarParticipante(String nome, String email) {
+	public static Participante criarParticipante(String nome, String email) throws Exception {
 		nome = nome.trim();
 		email = email.trim();
+		Participante p = repositorio.localizarParticipante(nome);
+		if (p!=null)
+			throw new Exception("Criar participante - Participante cadastrado:" + nome);
+		p = new Participante(nome, email);
+		repositorio.adicionar(p);
+		return p;
 	}
 
-	public static Reuniao criarReuniao (String datahora, String assunto, ArrayList<String> nomes) {
+	public static Reuniao criarReuniao (String datahora, String assunto, ArrayList<String> nomes) throws Exception {
 		assunto = assunto.trim();
-		//enviarEmail(emaildestino, assunto, mensagem)
+		Reuniao r = repositorio.localizarReuniao(idReuniao);
+		if (r!=null)
+			throw new Exception("A Reunião já existe.");
+		if (nomes.size() < 2) {
+			throw new Exception("Participante insuficientes para a criação da reunião.");
+		}
+		else {
+			idReuniao++;
+			r = new Reuniao(idReuniao,datahora, assunto);
+			for (String nome: nomes) {
+				Participante p = repositorio.localizarParticipante(nome);
+				if(p==null){
+					throw new Exception("Participante inesxistente");
+				}
+				else {
+					if (p.getReunioes().size() == 0) {
+						p.adicionar(r);
+						r.adicionar(p);
+					}
+					else {
+						for (Reuniao reuniao: p.getReunioes()) {
+							Duration dur = Duration.between(reuniao.getDatahora(), r.getDatahora());
+							long horas = dur.toHours();
+							if (Math.abs(horas) > 2) {
+								p.adicionar(r);
+								r.adicionar(p);
+							}
+							else {
+								throw new Exception("O Participante "+ p.getNome() + "Já possui uma renião nesse horário.");
+							}
+
+						}
+					}
+				}
+				}
+			if (r.getParticipantes().size() < 2) {
+				throw new Exception("Participantes insuficientes para a criação da Reunião.");
+			}
+			else {
+				repositorio.adicionar(r);
+				return r;
+			}
+		}
+
 	}
 
 
@@ -70,7 +121,7 @@ public class Fachada {
 		//...
 	}
 	
-	public static void 	removerParticipanteReuniao(String nome, int id) {
+	public static void 	removerParticipanteReuniao(String nome, int id) throws Exception {
 		nome = nome.trim();
 		//localizar participante e reuniao no repositorio e remove-lo da reunião
 		//enviarEmail(emaildestino, assunto, mensagem)
@@ -85,7 +136,7 @@ public class Fachada {
 		r.remover(p);
 		p.remover(r);
 	}
-	public static void	cancelarReuniao(int id) {
+	public static void	cancelarReuniao(int id) throws Exception {
 		//localizar a reunião no repositorio, remove-la de seus participantes e
 		//remove-la do repositorio
 		//enviarEmail(emaildestino, assunto, mensagem)
@@ -153,15 +204,15 @@ public class Fachada {
 		//gravar nos arquivos textos  os dados dos participantes e 
 		//das reuniões que estão no repositorio
 		
-		FileWriter arquivo1=null;
-		FileWriter arquivo2=null;
+		FileWriter arquivo1 =null;
+		FileWriter arquivo2 =null;
 		try{
 			arquivo1 = new FileWriter( new File("participantes.csv") ); 
 		}catch(IOException e){
 			throw new Exception("problema na criação do arquivo de participantes");
 		}
 		try{
-			arquivo1 = new FileWriter( new File("participantes.csv") ); 
+			arquivo2 = new FileWriter( new File("reunioes.csv") );
 		}catch(IOException e){
 			throw new Exception("problema na criação do arquivo de reunioes");
 		}
@@ -179,7 +230,7 @@ public class Fachada {
 				lista.add(p.getNome());
 			}
 			nomes = String.join(",", lista);
-			arquivo2.write(r.getId()+";"+r.getDatahora()+";"+r.getAssunto()+";"+nomes+"\n");	
+			arquivo2.write(r.getId()+";"+r.getDatahora().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))+";"+r.getAssunto()+";"+nomes+"\n");
 		} 
 		arquivo2.close();	
 
@@ -200,7 +251,7 @@ public class Fachada {
 	public static void enviarEmail(String emaildestino, String assunto, String mensagem){
 		try {
 			//configurar emails
-			String emailorigem = "meuemail@gmail.com";
+			String emailorigem = "roojohndi@gmail.com";
 			String senhaorigem = pegarSenha();
 
 			//Gmail

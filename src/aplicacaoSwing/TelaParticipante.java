@@ -1,10 +1,10 @@
-package aplicacaoSwing;
-
 /**********************************
  * IFPB - Curso Superior de Tec. em Sist. para Internet
- * Programação Orientada a Objetos
+ * Pesist~encia de Objetos
  * Prof. Fausto Maranhão Ayres
  **********************************/
+
+package aplicacaoSwing;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -101,7 +101,7 @@ public class TelaParticipante {
 		table.setModel(new DefaultTableModel(
 				new Object[][] {},
 				new String[] {"nome", "email", "reuniao"}
-				));
+		));
 		table.setShowGrid(true);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
@@ -161,7 +161,7 @@ public class TelaParticipante {
 		button_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button_1.setBounds(302, 252, 86, 23);
 		frame.getContentPane().add(button_1);
-		
+
 		button = new JButton("Listar");
 		button.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		button.addActionListener(new ActionListener() {

@@ -23,11 +23,22 @@ public class Participante {
     public String getEmail() { return email;}
     public void setEmail(String email) { this.email = email;}
 
-    public ArrayList<Reuniao> getReunioes() {
-        return reunioes;
-    }
+    public ArrayList<Reuniao> getReunioes() { return reunioes; }
 
     public void adicionar(Reuniao r){ reunioes.add(r);}
 
     public void remover(Reuniao r) { reunioes.remove(r);}
+
+    public String toString() {
+        String texto = "Nome = " + getNome()+ ", Email = " + getEmail() + ", Reuniões = ";
+        if (!reunioes.isEmpty()){
+            for (Reuniao r: reunioes) {
+                texto +=  r.getId() + " ";
+            }
+        }
+        else
+            texto += "nao tem";
+
+        return texto ;
+    }
 }

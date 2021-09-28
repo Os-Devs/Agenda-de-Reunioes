@@ -1,8 +1,7 @@
 package aplicacaoSwing;
-
 /**********************************
  * IFPB - Curso Superior de Tec. em Sist. para Internet
- * Programação Orientada a Objetos
+ * Pesist~encia de Objetos
  * Prof. Fausto Maranhão Ayres
  **********************************/
 
@@ -68,11 +67,15 @@ public class TelaPrincipal {
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent arg0) {
-				Fachada.inicializar();
+				try{Fachada.inicializar();}catch (Exception e){
+					System.out.println(e.getMessage());
+				}
 			}
 			@Override
 			public void windowClosing(WindowEvent e) {
-				Fachada.finalizar();
+				try{Fachada.finalizar();}catch(Exception y){
+					System.out.println(y.getMessage());
+				}
 				JOptionPane.showMessageDialog(frame, "até breve !");
 				timer.stop();
 			}
