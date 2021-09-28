@@ -40,7 +40,7 @@ public class AplicacaoConsole {
 			Fachada.adicionarParticipanteReuniao("jose", 2);
 			Fachada.removerParticipanteReuniao("paulo", 3);
 			Fachada.removerParticipanteReuniao("maria", 3);		//reuniao 3 sera cancelada
-			Fachada.cancelarReuniao(6);
+			Fachada.cancelarReuniao(3);
 			
 			System.out.println("\n---------listagem de participantes-----");
 			for(Participante p : Fachada.listarParticipantes()) 

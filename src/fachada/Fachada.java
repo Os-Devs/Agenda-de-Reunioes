@@ -57,15 +57,12 @@ public class Fachada {
 
 	public static Reuniao criarReuniao (String datahora, String assunto, ArrayList<String> nomes) throws Exception {
 		assunto = assunto.trim();
-		Reuniao r = repositorio.localizarReuniao(idReuniao);
-		if (r!=null)
-			throw new Exception("A Reunião já existe.");
 		if (nomes.size() < 2) {
 			throw new Exception("Participante insuficientes para a criação da reunião.");
 		}
 		else {
 			idReuniao++;
-			r = new Reuniao(idReuniao,datahora, assunto);
+			Reuniao r = new Reuniao(idReuniao,datahora, assunto);
 			for (String nome: nomes) {
 				Participante p = repositorio.localizarParticipante(nome);
 				if(p==null){
@@ -83,9 +80,10 @@ public class Fachada {
 							if (Math.abs(horas) > 2) {
 								p.adicionar(r);
 								r.adicionar(p);
+								break;
 							}
 							else {
-								throw new Exception("O Participante "+ p.getNome() + "Já possui uma renião nesse horário.");
+								throw new Exception("O Participante "+ p.getNome() + " Já possui uma renião nesse horário.");
 							}
 
 						}
@@ -115,6 +113,11 @@ public class Fachada {
 		Reuniao r = repositorio.localizarReuniao(id);
 		if(r==null)
 			throw new Exception("nao pode adicionar - reuniao inexistente");
+		for (Reuniao reuniao : p.getReunioes()) {
+		    if (reuniao.getId() == r.getId()) {
+				throw new Exception("o participante ja foi adicionado a reunião");
+			}
+		}
 
 		r.adicionar(p);
 		p.adicionar(r);
@@ -194,8 +197,10 @@ public class Fachada {
 			for(String n : nomes){
 				Participante p = repositorio.localizarParticipante(n);
 				r.adicionar(p);
+				p.adicionar(r);
 			}
-			repositorio.adicionar(r);		
+			repositorio.adicionar(r);
+			idReuniao = Integer.parseInt(id);
 		} 
 		arquivo2.close();	
 	}
