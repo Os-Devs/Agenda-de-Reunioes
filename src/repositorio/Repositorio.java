@@ -39,7 +39,7 @@ public class Repositorio {
 		return null;
 	}
 	
-	public ArrayList<Participante> getParticipantes() { return new ArrayList<Participante>(participantes.values());}
+	public ArrayList<Participante> getParticipantes() { return new ArrayList<>(this.participantes.values());}
 	public ArrayList<Reuniao> getReunioes() { return reunioes; }
 	public int getTotalParticipante(){ return participantes.size();}
 	public int getTotalReunioes(){ return reunioes.size();}

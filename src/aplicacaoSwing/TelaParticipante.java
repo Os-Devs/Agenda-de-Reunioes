@@ -101,7 +101,7 @@ public class TelaParticipante {
 		table.setModel(new DefaultTableModel(
 				new Object[][] {},
 				new String[] {"nome", "email", "reuniao"}
-		));
+				));
 		table.setShowGrid(true);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
