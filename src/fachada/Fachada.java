@@ -4,6 +4,7 @@ package fachada;
  * IFPB - Curso Superior de Tec. em Sist. para Internet
  * Programação Orientada a Objetos
  * Prof. Fausto Maranhão Ayres
+ * Grupo: John Ewerton Marques , Diego Figueiredo
  **********************************/
 
 import java.io.File;
@@ -95,8 +96,12 @@ public class Fachada {
 			}
 			else {
 				repositorio.adicionar(r);
-				return r;
+
 			}
+			for (Participante participante : r.getParticipantes()) {
+				enviarEmail(participante.getEmail(), "Não salvo", "Boas vindas!");
+			}
+			return r;
 		}
 
 	}
@@ -104,7 +109,6 @@ public class Fachada {
 
 	public static void 	adicionarParticipanteReuniao(String nome, int id) throws Exception {
 		nome = nome.trim();
-		//localizar participante e reuniao no repositorio e adiciona-lo a reunião
 		//enviarEmail(emaildestino, assunto, mensagem)
 		Participante p = repositorio.localizarParticipante(nome);
 		if(p==null)
@@ -118,9 +122,9 @@ public class Fachada {
 				throw new Exception("o participante ja foi adicionado a reunião");
 			}
 		}
-
 		r.adicionar(p);
 		p.adicionar(r);
+		enviarEmail(p.getEmail(), "Não Salvo", "Mensagem de boas vindas!");
 		//...
 	}
 	
@@ -133,11 +137,16 @@ public class Fachada {
 			throw new Exception("nao pode remover - participante inexistente");
 
 		Reuniao r = repositorio.localizarReuniao(id);
-		if(r==null)
+		if(r==null) {
 			throw new Exception("nao pode remover - reuniao inexistente");
-
+		}
 		r.remover(p);
 		p.remover(r);
+		enviarEmail(p.getEmail(), "Não Salvo", "Mensagem de boas vindas!");
+		if (r.getParticipantes().size() < 2) {
+			cancelarReuniao(r.getId());
+		}
+
 	}
 	public static void	cancelarReuniao(int id) throws Exception {
 		//localizar a reunião no repositorio, remove-la de seus participantes e
@@ -148,6 +157,7 @@ public class Fachada {
 			throw new Exception(String.format("cancelar reunião - reunião inexistente %d", id));
 
 		for (Participante p : r.getParticipantes()) {
+			enviarEmail(p.getEmail(), "Não Salvo", "Mensagem de boas vindas!");
 			p.remover(r);
 		}
 		repositorio.remover(r);
@@ -161,12 +171,12 @@ public class Fachada {
 		Scanner arquivo1=null;
 		Scanner arquivo2=null;
 		try{
-			arquivo1 = new Scanner( new File("participantes.txt"));
+			arquivo1 = new Scanner( new File("participantes2.txt"));
 		}catch(FileNotFoundException e){
 			throw new Exception("arquivo de participantes inexistente:");
 		}
 		try{
-			arquivo2 = new Scanner( new File("reunioes.txt"));
+			arquivo2 = new Scanner( new File("reunioes2.txt"));
 		}catch(FileNotFoundException e){
 			throw new Exception("arquivo de reunioes inexistente:");
 		}
@@ -198,6 +208,7 @@ public class Fachada {
 				Participante p = repositorio.localizarParticipante(n);
 				r.adicionar(p);
 				p.adicionar(r);
+				enviarEmail(p.getEmail(), "Não Salvo", "Mensagem de boas vindas!");
 			}
 			repositorio.adicionar(r);
 			idReuniao = Integer.parseInt(id);
@@ -253,7 +264,7 @@ public class Fachada {
 	 * 2. ativar opcao "Acesso a App menos seguro" na conta do gmail
 	 * 
 	 **************************************************************/
-	public static void enviarEmail(String emaildestino, String assunto, String mensagem){
+	public static void enviarEmail(String emaildestino, String assunto, String mensagem) {
 		try {
 			//configurar emails
 			String emailorigem = "roojohndi@gmail.com";
@@ -269,16 +280,17 @@ public class Fachada {
 			Session session;
 			session = Session.getInstance(props,
 					new javax.mail.Authenticator() {
-				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication(emailorigem, senhaorigem);
-				}
-			});
+						protected PasswordAuthentication getPasswordAuthentication() {
+							return new PasswordAuthentication(emailorigem, senhaorigem);
+						}
+					});
 
 			MimeMessage message = new MimeMessage(session);
-			message.setSubject(assunto);		
+			message.setSubject(assunto);
 			message.setFrom(new InternetAddress(emailorigem));
-			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emaildestino));
-			message.setText(mensagem);   // usar "\n" para quebrar linhas
+			message.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse(emaildestino));
+			message.setText(mensagem); // usar "\n" para quebrar linhas
 			Transport.send(message);
 
 			//System.out.println("enviado com sucesso");
@@ -287,13 +299,14 @@ public class Fachada {
 			System.out.println(e.getMessage());
 		}
 	}
-	
+
 	/*
 	 * JANELA PARA DIGITAR A SENHA DO EMAIL
 	 */
-	public static String pegarSenha(){
+
+	public static String pegarSenha() {
 		JPasswordField field = new JPasswordField(10);
-		field.setEchoChar('*'); 
+		field.setEchoChar('*');
 		JPanel painel = new JPanel();
 		painel.add(new JLabel("Entre com a senha do seu email:"));
 		painel.add(field);
@@ -301,5 +314,4 @@ public class Fachada {
 		String texto = new String(field.getPassword());
 		return texto.trim();
 	}
-	
 }

@@ -3,6 +3,7 @@ package aplicacaoSwing;
  * IFPB - Curso Superior de Tec. em Sist. para Internet
  * Pesist~encia de Objetos
  * Prof. Fausto Maranhão Ayres
+ * Grupo: John Ewerton Marques , Diego Figueiredo
  **********************************/
 
 import java.awt.EventQueue;

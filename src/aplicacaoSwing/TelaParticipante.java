@@ -2,6 +2,7 @@
  * IFPB - Curso Superior de Tec. em Sist. para Internet
  * Pesist~encia de Objetos
  * Prof. Fausto Maranhão Ayres
+ * Grupo: John Ewerton Marques , Diego Figueiredo
  **********************************/
 
 package aplicacaoSwing;
@@ -12,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -192,7 +194,7 @@ public class TelaParticipante {
 			String texto;
 			for(Participante p : lista) {
 				for(Reuniao r : p.getReunioes()) {
-					texto = r.getDatahora() +" - "+r.getAssunto() ;
+					texto = r.getDatahora().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) +" - "+r.getAssunto();
 					model.addRow(new Object[]{p.getNome(), p.getEmail(), texto});
 				}
 			}

@@ -4,6 +4,7 @@ package aplicacaoSwing;
  * IFPB - Curso Superior de Tec. em Sist. para Internet
  * Programação Orientada a Objetos
  * Prof. Fausto Maranhão Ayres
+ * Grupo: John Ewerton Marques , Diego Figueiredo
  **********************************/
 
 import java.awt.Color;
@@ -315,7 +316,6 @@ public class TelaReuniao {
 			model.addColumn("participante");
 			String datastr;
 			for(Reuniao r : lista) {
-				List<String> nomes = new ArrayList<>();
 				for(Participante p : r.getParticipantes())	{
 					datastr = r.getDatahora().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
 					model.addRow(new String[]{(String.valueOf(r.getId())), datastr, r.getAssunto(), p.getNome()});
